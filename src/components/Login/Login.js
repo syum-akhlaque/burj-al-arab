@@ -21,6 +21,7 @@ const Login = () => {
             const {displayName, email} = result.user;
             const signedInUser = {name: displayName, email} 
             setLoggedInUser(signedInUser);
+            storezAuthToken();
             history.replace(from);
             // ...
           }).catch(function(error) {
@@ -28,6 +29,16 @@ const Login = () => {
             console.log(errorMessage);
           });
     }
+
+    const storezAuthToken = () => {
+        firebase.auth().currentUser.getIdToken(true) /* forceRefresh */ 
+        .then(function(idToken) {
+            sessionStorage.setItem('token', idToken)
+          }).catch(function(error) {
+            // Handle error
+          });
+    }
+
     return (
         <div>
             <h1>This is Login</h1>
